@@ -6,7 +6,7 @@ const createObjectsPhoto = () => {
   const { START_NUMBER, OBJECTS_PHOTO, MAX_NUMBER_COMMENTS, URL_PHOTOS, DESCRIPTION_PHOTOS, LIKES_PHOTOS, ARRAY_OF_COMMENTS, ARRAY_OF_NAME, ArrayOfNumberAvatar } = getDataArrayObjects();
 
   const uniqueNumberId = createRandomNumber(START_NUMBER, OBJECTS_PHOTO);
-  const photoNumberUrl = createRandomNumber(START_NUMBER, URL_PHOTOS.length);
+  const photoNumberUrl = createRandomNumber(URL_PHOTOS[0], URL_PHOTOS.length);
   const photoDescription = createRandomNumber(START_NUMBER, OBJECTS_PHOTO);
   const photoNumberLikes = createRandomNumber(START_NUMBER, (LIKES_PHOTOS.length - 1));
 
