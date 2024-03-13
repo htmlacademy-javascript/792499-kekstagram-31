@@ -24,4 +24,6 @@ const createRandomNumber = (min, max) => {
   };
 };
 
-export { getRandomNumber, createRandomNumber };
+const isEscapeKey = (evt) => evt.keyCode === 27;
+
+export { getRandomNumber, createRandomNumber, isEscapeKey };
