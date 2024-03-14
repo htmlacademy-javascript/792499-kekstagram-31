@@ -1,5 +1,6 @@
 import { isEscapeKey } from './utils.js';
 import { createDataPhoto } from './gallery.js';
+import { createComments } from './create-comments.js';
 
 const createBigPhoto = () => {
   const pictures = document.querySelector('.pictures');
@@ -18,6 +19,7 @@ const createBigPhoto = () => {
     }
 
     createDataPhoto(bigPicture, targetElement);
+    createComments(bigPicture);
   };
 
   const onClosePicture = (evt) => {
