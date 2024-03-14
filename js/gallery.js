@@ -13,8 +13,13 @@ const createDataPhoto = (bigPicture, targetElement) => {
 
   const targetElementUrl = targetElement.getAttribute('src');
   const targetElementDescription = targetElement.getAttribute('alt');
+
   const targetElementLikes = targetElement.nextElementSibling.querySelector('.picture__likes');
   const targetElementComments = targetElement.nextElementSibling.querySelector('.picture__comments');
+
+  if (targetElementComments === null || targetElementLikes === null) {
+    return;
+  }
 
   bigPictureCommentsCount.classList.add('hidden');
   bigPictureCommentsLoader.classList.add('hidden');
