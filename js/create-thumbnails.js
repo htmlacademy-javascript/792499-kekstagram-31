@@ -1,24 +1,32 @@
-import { getDataArrayObjects } from './data.js';
-import { createRandomNumber } from './utils.js';
-
+import { createObjectsPhoto } from './create-objects-photo.js';
+const imgArray = [];
 const createThumbnails = () => {
-  const { START_NUMBER, MAX_NUMBER_COMMENTS, URL_PHOTOS, DESCRIPTION_PHOTOS, LIKES_PHOTOS } = getDataArrayObjects();
   const fragment = document.createDocumentFragment();
   const photoContainer = document.querySelector('.pictures');
   const templateContent = document.querySelector('#picture').content.querySelector('.picture');
 
-  URL_PHOTOS.forEach((number) => {
+  createObjectsPhoto().forEach(({ id, url, description, likes, comments }) => {
     const element = templateContent.cloneNode(true);
 
-    element.querySelector('.picture__img').src = `photos/${number}.jpg`;
-    element.querySelector('.picture__img').alt = DESCRIPTION_PHOTOS[number];
-    element.querySelector('.picture__likes').textContent = LIKES_PHOTOS[number];
-    element.querySelector('.picture__comments').textContent = createRandomNumber(START_NUMBER, MAX_NUMBER_COMMENTS)();
+    element.querySelector('.picture__img').src = url;
+    element.dataset.pictureId = id;
+    element.querySelector('.picture__img').alt = description;
+    element.querySelector('.picture__likes').textContent = likes;
+    element.querySelector('.picture__comments').textContent = comments.length;
+
+    imgArray.push(
+      {
+        id: element.dataset.pictureId,
+        src: element.querySelector('.picture__img').src,
+        description: element.querySelector('.picture__img').alt,
+        likes: likes,
+        comments: comments,
+      });
 
     fragment.append(element);
   });
 
-  return photoContainer.append(fragment);
+  photoContainer.append(fragment);
 };
 
-export { createThumbnails };
+export { createThumbnails, imgArray };

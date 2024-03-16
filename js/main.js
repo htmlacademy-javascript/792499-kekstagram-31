@@ -1,4 +1,4 @@
-import { createObjectsPhoto } from './create-objects-photo.js';
 import { createThumbnails } from './create-thumbnails.js';
-createObjectsPhoto();
+import { createBigPhoto } from './create-big-photo.js';
 createThumbnails();
+createBigPhoto();
