@@ -8,7 +8,7 @@ const createBigPhoto = () => {
   const pictureCancel = document.querySelector('#picture-cancel');
 
   const onOpenPicture = (evt) => {
-
+    pictureCancel.addEventListener('click', onClosePicture);
     const targetElement = evt.target;
     const currentElement = targetElement.closest('.picture');
 
@@ -52,7 +52,6 @@ const createBigPhoto = () => {
     });
   };
 
-  pictureCancel.addEventListener('click', onClosePicture);
   onEscapeKeyDown();
 
 };
