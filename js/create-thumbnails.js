@@ -21,7 +21,8 @@ const createThumbnails = () => {
         description: element.querySelector('.picture__img').alt,
         likes: likes,
         comments: comments,
-      });
+      }
+    );
 
     fragment.append(element);
   });

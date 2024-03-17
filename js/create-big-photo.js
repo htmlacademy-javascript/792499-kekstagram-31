@@ -7,8 +7,21 @@ const createBigPhoto = () => {
   const bodyElement = document.querySelector('body');
   const pictureCancel = document.querySelector('#picture-cancel');
 
-  const onOpenPicture = (evt) => {
-    pictureCancel.addEventListener('click', onClosePicture);
+  const onDocumentKeydown = (evt) => {
+    if (isEscapeKey(evt)) {
+      evt.preventDefault();
+      onClosePicture();
+    }
+  };
+
+  function onClosePicture () {
+    bigPicture.classList.add('hidden');
+    bodyElement.classList.remove('modal-open');
+    pictureCancel.removeEventListener('click', onClosePicture);
+    document.removeEventListener('keydown', onDocumentKeydown);
+  }
+
+  function onOpenPicture (evt) {
     const targetElement = evt.target;
     const currentElement = targetElement.closest('.picture');
 
@@ -28,31 +41,11 @@ const createBigPhoto = () => {
     }
 
     createDataPhoto(currentId, bigPicture);
-  };
-
-  const onClosePicture = (evt) => {
-    evt.preventDefault();
-
-    bigPicture.classList.add('hidden');
-    bodyElement.classList.remove('modal-open');
-    pictureCancel.removeEventListener('click', onClosePicture);
-  };
+    pictureCancel.addEventListener('click', onClosePicture);
+    document.addEventListener('keydown', onDocumentKeydown);
+  }
 
   pictures.addEventListener('click', onOpenPicture);
-
-  const onEscapeKeyDown = () => {
-    document.addEventListener('keydown', (evt) => {
-      if (isEscapeKey(evt)) {
-        evt.preventDefault();
-
-        bigPicture.classList.add('hidden');
-        bodyElement.classList.remove('modal-open');
-        pictureCancel.removeEventListener('click', onClosePicture);
-      }
-    });
-  };
-
-  onEscapeKeyDown();
 
 };
 
