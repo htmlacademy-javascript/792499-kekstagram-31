@@ -1,5 +1,6 @@
 import { isEscapeKey } from './utils.js';
 import { createDataPhoto } from './create-data-photo.js';
+import { socialComments } from './social-comments.js';
 
 const createBigPhoto = () => {
   const pictures = document.querySelector('.pictures');
@@ -43,6 +44,7 @@ const createBigPhoto = () => {
     createDataPhoto(currentId, bigPicture);
     pictureCancel.addEventListener('click', onClosePicture);
     document.addEventListener('keydown', onDocumentKeydown);
+    socialComments(currentElement, bigPicture);
   }
 
   pictures.addEventListener('click', onOpenPicture);
