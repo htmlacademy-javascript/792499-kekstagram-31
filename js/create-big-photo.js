@@ -1,12 +1,13 @@
 import { isEscapeKey } from './utils.js';
 import { createDataPhoto } from './create-data-photo.js';
-import { socialComments } from './social-comments.js';
+import { createSocialComments } from './create-social-comments.js';
 
 const createBigPhoto = () => {
   const pictures = document.querySelector('.pictures');
   const bigPicture = document.querySelector('.big-picture');
   const bodyElement = document.querySelector('body');
   const pictureCancel = document.querySelector('#picture-cancel');
+  const commentsLoaderBtn = bigPicture.querySelector('.comments-loader');
 
   const onDocumentKeydown = (evt) => {
     if (isEscapeKey(evt)) {
@@ -20,6 +21,7 @@ const createBigPhoto = () => {
     bodyElement.classList.remove('modal-open');
     pictureCancel.removeEventListener('click', onClosePicture);
     document.removeEventListener('keydown', onDocumentKeydown);
+    commentsLoaderBtn.removeEventListener('click', onClosePicture);
   }
 
   function onOpenPicture (evt) {
@@ -44,7 +46,7 @@ const createBigPhoto = () => {
     createDataPhoto(currentId, bigPicture);
     pictureCancel.addEventListener('click', onClosePicture);
     document.addEventListener('keydown', onDocumentKeydown);
-    socialComments(currentElement, bigPicture);
+    createSocialComments(currentElement, bigPicture);
   }
 
   pictures.addEventListener('click', onOpenPicture);
