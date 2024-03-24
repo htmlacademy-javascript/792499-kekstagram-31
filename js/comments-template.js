@@ -6,6 +6,7 @@ const createCommentsTemplate = (bigPicture, currentComments) => {
 
   socialAvatar.classList.add('social__picture');
   socialAvatar.setAttribute('src', currentComments.avatar);
+  socialAvatar.setAttribute('alt', currentComments.name);
   commentsItem.classList.add('social__comment');
   socialText.classList.add('social__text');
 
