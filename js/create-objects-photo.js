@@ -20,15 +20,17 @@ const createObjectsPhoto = () => {
 
     return {
       id: uniqueIdComments(),
-      avatar: `img/avatar-${getRandomNumber(START_NUMBER, ArrayOfNumberAvatar.length)}.svg`,
+      avatar: `img/avatar-${getRandomNumber(ArrayOfNumberAvatar[0], ArrayOfNumberAvatar.length)}.svg`,
       message: ARRAY_OF_COMMENTS[getRandomNumber(START_NUMBER, ARRAY_OF_COMMENTS.length - 1)],
       name: createCommentsName(),
     };
   };
 
+  const uniqueNumberComments = createRandomNumber(START_NUMBER, MAX_NUMBER_COMMENTS);
+
   const createComments = () => {
-    const uniqueNumberComments = createRandomNumber(START_NUMBER, MAX_NUMBER_COMMENTS);
-    return Array.from({length: uniqueNumberComments()}, createObjectComments);
+    const arrayOfComments = Array.from({length: uniqueNumberComments()}, createObjectComments);
+    return arrayOfComments;
   };
 
   const createUniqueObject = () => ({
