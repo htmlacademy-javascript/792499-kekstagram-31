@@ -15,6 +15,11 @@ const imgUploadPrewiew = uploadForm.querySelector('img');
 const effectsList = uploadForm.querySelector('.effects__list');
 const effectsListChildren = effectsList.children;
 
+const MAX_SYMBOLS = 20;
+const MAX_HASHTAGS = 5;
+
+let errorMessage = '';
+
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
@@ -74,11 +79,6 @@ pristineUpload.addValidator(commentsInput, (value) => {
   const commentsLength = value.length <= 140;
   return commentsLength;
 }, 'Комментарий должен содержать не более 140 символов');
-
-const MAX_SYMBOLS = 20;
-const MAX_HASHTAGS = 5;
-
-let errorMessage = '';
 
 function error () {
   return errorMessage;
@@ -141,4 +141,3 @@ pristineUpload.addValidator(hashtagInput, getHashtagsValue, error);
 uploadForm.addEventListener('submit', onFormSubmit);
 
 export { getUploadModal };
-
