@@ -4,4 +4,3 @@ import { getUploadModal } from './upload-photo.js';
 createThumbnails();
 createBigPhoto();
 getUploadModal();
-

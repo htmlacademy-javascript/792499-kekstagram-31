@@ -1,4 +1,5 @@
 import { isEscapeKey } from './utils.js';
+import { getScalePhoto, removeBtnListener } from './scale-photo.js';
 
 const uploadForm = document.querySelector('#upload-select-image');
 const bodyElement = document.querySelector('body');
@@ -36,7 +37,9 @@ function onPhotoEditResetBtnClick () {
   photoEditForm.classList.add('hidden');
   photoEditResetBtn.removeEventListener('click', onPhotoEditResetBtnClick);
   document.removeEventListener('keydown', onDocumentKeydown);
+  removeBtnListener();
   uploadFileControl.value = '';
+  imgUploadPrewiew.style.transform = '';
 }
 
 const imageSubstitution = (currentImage) => {
@@ -57,6 +60,7 @@ const getUploadModal = () => {
     photoEditResetBtn.addEventListener('click', onPhotoEditResetBtnClick);
     document.addEventListener('keydown', onDocumentKeydown);
     imageSubstitution(currentImage);
+    getScalePhoto();
   });
 };
 
