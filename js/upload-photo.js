@@ -1,4 +1,6 @@
 import { isEscapeKey } from './utils.js';
+import { getScalePhoto, removeBtnListener } from './scale-photo.js';
+import { getInputRange, onClearSlider } from './slider.js';
 
 const uploadForm = document.querySelector('#upload-select-image');
 const bodyElement = document.querySelector('body');
@@ -14,6 +16,11 @@ const commentsInput = uploadForm.querySelector('.text__description');
 const imgUploadPrewiew = uploadForm.querySelector('img');
 const effectsList = uploadForm.querySelector('.effects__list');
 const effectsListChildren = effectsList.children;
+
+const MAX_SYMBOLS = 20;
+const MAX_HASHTAGS = 5;
+
+let errorMessage = '';
 
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
@@ -31,7 +38,10 @@ function onPhotoEditResetBtnClick () {
   photoEditForm.classList.add('hidden');
   photoEditResetBtn.removeEventListener('click', onPhotoEditResetBtnClick);
   document.removeEventListener('keydown', onDocumentKeydown);
+  removeBtnListener();
+  onClearSlider();
   uploadFileControl.value = '';
+  imgUploadPrewiew.style.transform = '';
 }
 
 const imageSubstitution = (currentImage) => {
@@ -52,6 +62,8 @@ const getUploadModal = () => {
     photoEditResetBtn.addEventListener('click', onPhotoEditResetBtnClick);
     document.addEventListener('keydown', onDocumentKeydown);
     imageSubstitution(currentImage);
+    getScalePhoto();
+    getInputRange();
   });
 };
 
@@ -74,11 +86,6 @@ pristineUpload.addValidator(commentsInput, (value) => {
   const commentsLength = value.length <= 140;
   return commentsLength;
 }, 'Комментарий должен содержать не более 140 символов');
-
-const MAX_SYMBOLS = 20;
-const MAX_HASHTAGS = 5;
-
-let errorMessage = '';
 
 function error () {
   return errorMessage;
@@ -141,4 +148,3 @@ pristineUpload.addValidator(hashtagInput, getHashtagsValue, error);
 uploadForm.addEventListener('submit', onFormSubmit);
 
 export { getUploadModal };
-
