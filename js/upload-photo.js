@@ -2,6 +2,9 @@ import { isEscapeKey } from './utils.js';
 import { getScalePhoto, removeBtnListener } from './scale-photo.js';
 import { getInputRange, onClearSlider } from './slider.js';
 
+const MAX_SYMBOLS = 20;
+const MAX_HASHTAGS = 5;
+
 const uploadForm = document.querySelector('#upload-select-image');
 const bodyElement = document.querySelector('body');
 
@@ -16,9 +19,6 @@ const commentsInput = uploadForm.querySelector('.text__description');
 const imgUploadPrewiew = uploadForm.querySelector('img');
 const effectsList = uploadForm.querySelector('.effects__list');
 const effectsListChildren = effectsList.children;
-
-const MAX_SYMBOLS = 20;
-const MAX_HASHTAGS = 5;
 
 let errorMessage = '';
 

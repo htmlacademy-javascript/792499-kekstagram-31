@@ -1,13 +1,12 @@
+const SCALE_STEP = 25;
+const MAX_PERCENT = 100;
+const MAX_SCALE = 1;
 const smallerBtn = document.querySelector('.scale__control--smaller');
 const biggerBtn = document.querySelector('.scale__control--bigger');
 const imgContainer = document.querySelector('.img-upload__preview');
 const scalableImg = imgContainer.querySelector('img');
 const inputScale = document.querySelector('.scale__control--value');
 let currentValue = parseInt(inputScale.value, 10);
-
-const SCALE_STEP = 25;
-const MAX_PERCENT = 100;
-const MAX_SCALE = 1;
 
 const getDisabledIncreaseBtn = () => {
   if (currentValue === MAX_PERCENT) {
