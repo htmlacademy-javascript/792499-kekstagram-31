@@ -1,9 +1,8 @@
 import { isEscapeKey } from './utils.js';
 import { createDataPhoto } from './create-data-photo.js';
-import { imgArray } from './create-thumbnails.js';
 import { createCommentsTemplate } from './comments-template.js';
 
-const createBigPhoto = () => {
+const createBigPhoto = (data) => {
   const pictures = document.querySelector('.pictures');
   const bigPicture = document.querySelector('.big-picture');
   const bodyElement = document.querySelector('body');
@@ -18,11 +17,10 @@ const createBigPhoto = () => {
 
   socialCommentsList.innerHTML = '';
 
-  const currentCommentaries = (currentElement) => {
-    const commentsQuantity = Number(currentElement.querySelector('.picture__comments').textContent);
-    imgArray.forEach((array) => {
-      if (commentsQuantity === array.comments.length) {
-        const arrayOfComments = array.comments;
+  const currentCommentaries = (currentElement, currentId) => {
+    data.forEach((object) => {
+      if (currentId === object.id) {
+        const arrayOfComments = object.comments;
         arrayOfComments.forEach((element) => {
           currentCommentary.push(element);
         });
@@ -68,18 +66,17 @@ const createBigPhoto = () => {
       return;
     }
 
-    const currentId = currentElement.dataset.pictureId;
-
+    const currentId = Number(currentElement.dataset.pictureId);
     if (targetElement.matches('.picture__img') || targetElement.closest('.picture__info')) {
       bigPicture.classList.remove('hidden');
       bodyElement.classList.add('modal-open');
     }
 
-    createDataPhoto(currentId, bigPicture);
+    createDataPhoto(data, currentId, bigPicture);
     pictureCancel.addEventListener('click', onClosePicture);
     document.addEventListener('keydown', onDocumentKeydown);
 
-    currentCommentaries(currentElement);
+    currentCommentaries(currentElement, currentId);
     loadedCommentary();
     if (Number(totalComments.textContent) <= COMMENTS_COUNT) {
       currentCommentsCount.textContent = Number(totalComments.textContent);
