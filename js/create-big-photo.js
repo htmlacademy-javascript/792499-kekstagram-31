@@ -1,5 +1,5 @@
 import { isEscapeKey } from './utils.js';
-import { createDataPhoto } from './create-data-photo.js';
+import { createDataPhoto, getCommentsById } from './create-data-photo.js';
 import { createCommentsTemplate } from './comments-template.js';
 
 const createBigPhoto = (data) => {
@@ -16,17 +16,6 @@ const createBigPhoto = (data) => {
   let currentQuantityMessage = 0;
 
   socialCommentsList.innerHTML = '';
-
-  const currentCommentaries = (currentElement, currentId) => {
-    data.forEach((object) => {
-      if (currentId === object.id) {
-        const arrayOfComments = object.comments;
-        arrayOfComments.forEach((element) => {
-          currentCommentary.push(element);
-        });
-      }
-    });
-  };
 
   const onDocumentKeydown = (evt) => {
     if (isEscapeKey(evt)) {
@@ -76,7 +65,8 @@ const createBigPhoto = (data) => {
     pictureCancel.addEventListener('click', onClosePicture);
     document.addEventListener('keydown', onDocumentKeydown);
 
-    currentCommentaries(currentElement, currentId);
+    getCommentsById(data, currentId, currentCommentary);
+
     loadedCommentary();
     if (Number(totalComments.textContent) <= COMMENTS_COUNT) {
       currentCommentsCount.textContent = Number(totalComments.textContent);

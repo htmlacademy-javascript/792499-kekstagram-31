@@ -19,4 +19,11 @@ const createDataPhoto = (data, currentId, bigPicture) => {
   });
 };
 
-export { createDataPhoto };
+const getCommentsById = (data, currentId, currentCommentary) => {
+  const arrayOfComments = data[currentId].comments;
+  arrayOfComments.forEach((element) => {
+    currentCommentary.push(element);
+  });
+};
+
+export { createDataPhoto, getCommentsById };
