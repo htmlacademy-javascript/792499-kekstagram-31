@@ -11,6 +11,7 @@ const bodyElement = document.querySelector('body');
 const uploadFileControl = uploadForm.querySelector('#upload-file');
 const photoEditForm = uploadForm.querySelector('.img-upload__overlay');
 const photoEditResetBtn = photoEditForm.querySelector('#upload-cancel');
+const btnSubmit = uploadForm.querySelector('#upload-submit');
 
 const hashtagInput = uploadForm.querySelector('.text__hashtags');
 const currentHashtag = /^#[a-zа-яё0-9]{1,19}$/i;
@@ -82,14 +83,7 @@ const onFormSubmit = (evt) => {
   }
 };
 
-pristineUpload.addValidator(commentsInput, (value) => {
-  const commentsLength = value.length <= 140;
-  return commentsLength;
-}, 'Комментарий должен содержать не более 140 символов');
-
-function error () {
-  return errorMessage;
-}
+const error = () => errorMessage;
 
 const getHashtagsValue = (value) => {
   errorMessage = '';
@@ -137,13 +131,30 @@ const getHashtagsValue = (value) => {
 
     if (isInvalid) {
       errorMessage = rule.error;
+      btnSubmit.setAttribute('disabled', true);
+    } else {
+      btnSubmit.removeAttribute('disabled');
     }
 
     return !isInvalid;
   });
 };
 
+const checkCommentsLength = (value) => {
+  const commentsLength = value.length <= 140;
+  btnSubmit.removeAttribute('disabled');
+  return commentsLength;
+};
+
+const errorComments = () => {
+  const errorCommentsInput = 'Комментарий должен содержать не более 140 символов';
+  btnSubmit.setAttribute('disabled', true);
+  return errorCommentsInput;
+};
+
 pristineUpload.addValidator(hashtagInput, getHashtagsValue, error);
+
+pristineUpload.addValidator(commentsInput, checkCommentsLength, errorComments);
 
 uploadForm.addEventListener('submit', onFormSubmit);
 
