@@ -1,16 +1,17 @@
 import { isEscapeKey } from './utils.js';
-import { getScalePhoto, removeBtnListener } from './scale-photo.js';
+import { getScalePhoto, removeBtnListener, inputScale, MAX_PERCENT } from './scale-photo.js';
 import { getInputRange, onClearSlider } from './slider.js';
+import { showsStatusSending } from './form-messages.js';
 
 const MAX_SYMBOLS = 20;
 const MAX_HASHTAGS = 5;
+const BASE_URL = 'httpss://31.javascript.htmlacademy.pro/kekstagram';
 
 const uploadForm = document.querySelector('#upload-select-image');
 const bodyElement = document.querySelector('body');
 
 const uploadFileControl = uploadForm.querySelector('#upload-file');
 const photoEditForm = uploadForm.querySelector('.img-upload__overlay');
-const photoEditResetBtn = photoEditForm.querySelector('#upload-cancel');
 const btnSubmit = uploadForm.querySelector('#upload-submit');
 
 const hashtagInput = uploadForm.querySelector('.text__hashtags');
@@ -37,7 +38,7 @@ const onDocumentKeydown = (evt) => {
 function onPhotoEditResetBtnClick () {
   bodyElement.classList.remove('modal-open');
   photoEditForm.classList.add('hidden');
-  photoEditResetBtn.removeEventListener('click', onPhotoEditResetBtnClick);
+  uploadForm.removeEventListener('reset', onPhotoEditResetBtnClick);
   document.removeEventListener('keydown', onDocumentKeydown);
   removeBtnListener();
   onClearSlider();
@@ -60,7 +61,7 @@ const getUploadModal = () => {
     const currentImage = evt.target.files;
     photoEditForm.classList.remove('hidden');
     bodyElement.classList.add('modal-open');
-    photoEditResetBtn.addEventListener('click', onPhotoEditResetBtnClick);
+    uploadForm.addEventListener('reset', onPhotoEditResetBtnClick);
     document.addEventListener('keydown', onDocumentKeydown);
     imageSubstitution(currentImage);
     getScalePhoto();
@@ -74,13 +75,44 @@ const pristineUpload = new Pristine(uploadForm, {
   errorTextParent: 'img-upload__field-wrapper',
 });
 
+const onSuccess = () => {
+  showsStatusSending('body', '#success', '.success');
+};
+
+const onError = () => {
+  showsStatusSending('body', '#error', '.error');
+};
+
 const onFormSubmit = (evt) => {
   evt.preventDefault();
 
   if (pristineUpload) {
     hashtagInput.value = hashtagInput.value.trim().replaceAll(/\s+/g, '');
-    uploadForm.submit();
+    const formData = new FormData(evt.target);
+    fetch(BASE_URL, {
+      method: 'POST',
+      body: formData,
+    })
+      .then((response) => {
+        if (response.ok) {
+          btnSubmit.setAttribute('disabled', true);
+          inputScale.value = `${MAX_PERCENT}%`;
+          hashtagInput.value = '';
+          commentsInput.value = '';
+          onClearSlider();
+          onSuccess();
+        } else {
+          onError();
+        }
+      })
+      .catch(() => {
+        onError();
+      })
+      .finally(() => {
+        btnSubmit.removeAttribute('disabled');
+      });
   }
+  onPhotoEditResetBtnClick();
 };
 
 const error = () => errorMessage;
@@ -91,6 +123,7 @@ const getHashtagsValue = (value) => {
   const inputText = value.toLowerCase().trim();
 
   if (inputText.length === 0) {
+    btnSubmit.removeAttribute('disabled');
     return true;
   }
 

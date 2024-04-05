@@ -45,4 +45,4 @@ const removeBtnListener = () => {
   biggerBtn.removeEventListener('click', getIncreaseScale);
 };
 
-export { getScalePhoto, removeBtnListener };
+export { getScalePhoto, removeBtnListener, inputScale, MAX_PERCENT };

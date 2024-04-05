@@ -3,6 +3,7 @@ import { createDataPhoto, getCommentsById } from './create-data-photo.js';
 import { createCommentsTemplate } from './comments-template.js';
 
 const createBigPhoto = (data) => {
+  const COMMENTS_COUNT = 5;
   const pictures = document.querySelector('.pictures');
   const bigPicture = document.querySelector('.big-picture');
   const bodyElement = document.querySelector('body');
@@ -12,7 +13,6 @@ const createBigPhoto = (data) => {
   const totalComments = bigPicture.querySelector('.social__comment-total-count');
   const currentCommentsCount = bigPicture.querySelector('.social__comment-shown-count');
   const currentCommentary = [];
-  const COMMENTS_COUNT = 5;
   let currentQuantityMessage = 0;
 
   socialCommentsList.innerHTML = '';
