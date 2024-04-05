@@ -5,7 +5,7 @@ import { showsStatusSending } from './form-messages.js';
 
 const MAX_SYMBOLS = 20;
 const MAX_HASHTAGS = 5;
-const BASE_URL = 'httpss://31.javascript.htmlacademy.pro/kekstagram';
+const BASE_URL = 'https://31.javascript.htmlacademy.pro/kekstagram';
 
 const uploadForm = document.querySelector('#upload-select-image');
 const bodyElement = document.querySelector('body');
@@ -101,6 +101,7 @@ const onFormSubmit = (evt) => {
           commentsInput.value = '';
           onClearSlider();
           onSuccess();
+          onPhotoEditResetBtnClick();
         } else {
           onError();
         }
@@ -112,7 +113,6 @@ const onFormSubmit = (evt) => {
         btnSubmit.removeAttribute('disabled');
       });
   }
-  onPhotoEditResetBtnClick();
 };
 
 const error = () => errorMessage;
