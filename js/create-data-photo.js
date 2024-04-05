@@ -1,6 +1,4 @@
-import { imgArray } from './create-thumbnails.js';
-
-const createDataPhoto = (currentId, bigPicture) => {
+const createDataPhoto = (data, currentId, bigPicture) => {
   const COMMENTS_SHOWN = 5;
   const bigPictureImg = bigPicture.querySelector('img');
   const bigPictureLikesCount = bigPicture.querySelector('.likes-count');
@@ -10,9 +8,9 @@ const createDataPhoto = (currentId, bigPicture) => {
 
   bigPictureCommentsShown.textContent = COMMENTS_SHOWN;
 
-  imgArray.forEach(({ id, src, description, likes, comments }) => {
+  data.forEach(({ id, url, description, likes, comments }) => {
     if (currentId === id) {
-      bigPictureImg.src = src;
+      bigPictureImg.src = url;
       bigPictureLikesCount.textContent = likes;
       bigPictureCaption.textContent = description;
       bigPictureLikesCount.textContent = likes;
@@ -21,4 +19,11 @@ const createDataPhoto = (currentId, bigPicture) => {
   });
 };
 
-export { createDataPhoto };
+const getCommentsById = (data, currentId, currentCommentary) => {
+  const arrayOfComments = data[currentId].comments;
+  arrayOfComments.forEach((element) => {
+    currentCommentary.push(element);
+  });
+};
+
+export { createDataPhoto, getCommentsById };

@@ -1,9 +1,9 @@
 import { isEscapeKey } from './utils.js';
-import { createDataPhoto } from './create-data-photo.js';
-import { imgArray } from './create-thumbnails.js';
+import { createDataPhoto, getCommentsById } from './create-data-photo.js';
 import { createCommentsTemplate } from './comments-template.js';
 
-const createBigPhoto = () => {
+const createBigPhoto = (data) => {
+  const COMMENTS_COUNT = 5;
   const pictures = document.querySelector('.pictures');
   const bigPicture = document.querySelector('.big-picture');
   const bodyElement = document.querySelector('body');
@@ -13,22 +13,9 @@ const createBigPhoto = () => {
   const totalComments = bigPicture.querySelector('.social__comment-total-count');
   const currentCommentsCount = bigPicture.querySelector('.social__comment-shown-count');
   const currentCommentary = [];
-  const COMMENTS_COUNT = 5;
   let currentQuantityMessage = 0;
 
   socialCommentsList.innerHTML = '';
-
-  const currentCommentaries = (currentElement) => {
-    const commentsQuantity = Number(currentElement.querySelector('.picture__comments').textContent);
-    imgArray.forEach((array) => {
-      if (commentsQuantity === array.comments.length) {
-        const arrayOfComments = array.comments;
-        arrayOfComments.forEach((element) => {
-          currentCommentary.push(element);
-        });
-      }
-    });
-  };
 
   const onDocumentKeydown = (evt) => {
     if (isEscapeKey(evt)) {
@@ -68,18 +55,18 @@ const createBigPhoto = () => {
       return;
     }
 
-    const currentId = currentElement.dataset.pictureId;
-
+    const currentId = Number(currentElement.dataset.pictureId);
     if (targetElement.matches('.picture__img') || targetElement.closest('.picture__info')) {
       bigPicture.classList.remove('hidden');
       bodyElement.classList.add('modal-open');
     }
 
-    createDataPhoto(currentId, bigPicture);
+    createDataPhoto(data, currentId, bigPicture);
     pictureCancel.addEventListener('click', onClosePicture);
     document.addEventListener('keydown', onDocumentKeydown);
 
-    currentCommentaries(currentElement);
+    getCommentsById(data, currentId, currentCommentary);
+
     loadedCommentary();
     if (Number(totalComments.textContent) <= COMMENTS_COUNT) {
       currentCommentsCount.textContent = Number(totalComments.textContent);

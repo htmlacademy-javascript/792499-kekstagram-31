@@ -1,7 +1,5 @@
-import { createThumbnails } from './create-thumbnails.js';
-import { createBigPhoto } from './create-big-photo.js';
 import { getUploadModal } from './upload-photo.js';
+import { getDataServer } from './get-data-server.js';
 
-createThumbnails();
-createBigPhoto();
 getUploadModal();
+getDataServer();
