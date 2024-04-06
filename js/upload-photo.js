@@ -2,6 +2,7 @@ import { isEscapeKey } from './utils.js';
 import { getScalePhoto, removeBtnListener, inputScale, MAX_PERCENT } from './scale-photo.js';
 import { getInputRange, onClearSlider } from './slider.js';
 import { showsStatusSending } from './form-messages.js';
+import { imageSubstitution } from './image-substitution.js';
 
 const MAX_SYMBOLS = 20;
 const MAX_HASHTAGS = 5;
@@ -19,8 +20,6 @@ const currentHashtag = /^#[a-zа-яё0-9]{1,19}$/i;
 const commentsInput = uploadForm.querySelector('.text__description');
 
 const imgUploadPrewiew = uploadForm.querySelector('img');
-const effectsList = uploadForm.querySelector('.effects__list');
-const effectsListChildren = effectsList.children;
 
 let errorMessage = '';
 
@@ -46,16 +45,6 @@ function onPhotoEditResetBtnClick () {
   imgUploadPrewiew.style.transform = '';
 }
 
-const imageSubstitution = (currentImage) => {
-  const srcImage = URL.createObjectURL(currentImage[0]);
-  imgUploadPrewiew.setAttribute('src', srcImage);
-
-  for (let i = 0; i < effectsListChildren.length; i++) {
-    const currentThumbnail = effectsListChildren[i].querySelector('.effects__preview');
-    currentThumbnail.style.backgroundImage = `url('${srcImage}')`;
-  }
-};
-
 const getUploadModal = () => {
   uploadFileControl.addEventListener('change', (evt) => {
     const currentImage = evt.target.files;
@@ -63,7 +52,7 @@ const getUploadModal = () => {
     bodyElement.classList.add('modal-open');
     uploadForm.addEventListener('reset', onPhotoEditResetBtnClick);
     document.addEventListener('keydown', onDocumentKeydown);
-    imageSubstitution(currentImage);
+    imageSubstitution(photoEditForm, uploadFileControl, currentImage, imgUploadPrewiew);
     getScalePhoto();
     getInputRange();
   });

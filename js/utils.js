@@ -37,16 +37,4 @@ const debounce = (callback, timeoutDelay = TIMEOUT_DELAY) => {
   };
 };
 
-const throttle = (callback, delayBetweenFrames) => {
-  let lastTime = 0;
-
-  return (...rest) => {
-    const now = new Date();
-    if (now - lastTime >= delayBetweenFrames) {
-      callback.apply(this, rest);
-      lastTime = now;
-    }
-  };
-};
-
-export { getRandomNumber, createRandomNumber, isEscapeKey, debounce, throttle };
+export { getRandomNumber, createRandomNumber, isEscapeKey, debounce };
