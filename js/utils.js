@@ -1,3 +1,5 @@
+const TIMEOUT_DELAY = 500;
+
 const getRandomNumber = (min, max) => {
   const lower = Math.ceil(Math.min(min, max));
   const upper = Math.floor(Math.max(min, max));
@@ -26,4 +28,25 @@ const createRandomNumber = (min, max) => {
 
 const isEscapeKey = (evt) => evt.keyCode === 27;
 
-export { getRandomNumber, createRandomNumber, isEscapeKey };
+const debounce = (callback, timeoutDelay = TIMEOUT_DELAY) => {
+  let timeoutId;
+
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+
+const throttle = (callback, delayBetweenFrames) => {
+  let lastTime = 0;
+
+  return (...rest) => {
+    const now = new Date();
+    if (now - lastTime >= delayBetweenFrames) {
+      callback.apply(this, rest);
+      lastTime = now;
+    }
+  };
+};
+
+export { getRandomNumber, createRandomNumber, isEscapeKey, debounce, throttle };
