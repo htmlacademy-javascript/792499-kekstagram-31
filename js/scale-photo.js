@@ -17,32 +17,42 @@ const getDisabledIncreaseBtn = () => {
 
 const getDecreaseScale = () => {
   biggerBtn.removeAttribute('disabled', 'disabled');
-  currentValue -= SCALE_STEP;
-  inputScale.value = `${currentValue}%`;
-  scalableImg.style.transform = `scale(0.${currentValue})`;
-
   if (currentValue === SCALE_STEP) {
     smallerBtn.setAttribute('disabled', 'disabled');
+  } else {
+    currentValue -= SCALE_STEP;
+    inputScale.value = `${currentValue}%`;
+    scalableImg.style.transform = `scale(0.${currentValue})`;
   }
 };
 
 const getIncreaseScale = () => {
   smallerBtn.removeAttribute('disabled', 'disabled');
-  currentValue += SCALE_STEP;
-  inputScale.value = `${currentValue}%`;
-  scalableImg.style.transform = `scale(0.${currentValue})`;
-  getDisabledIncreaseBtn();
+  if (currentValue === MAX_PERCENT) {
+    scalableImg.style.transform = `scale(${MAX_SCALE})`;
+    biggerBtn.setAttribute('disabled', 'disabled');
+  } else {
+    currentValue += SCALE_STEP;
+    inputScale.value = `${currentValue}%`;
+    scalableImg.style.transform = `scale(0.${currentValue})`;
+    getDisabledIncreaseBtn();
+  }
 };
 
 const getScalePhoto = () => {
+  currentValue = MAX_PERCENT;
+  inputScale.value = `${MAX_PERCENT}%`;
+  scalableImg.style.transform = `scale(${MAX_SCALE})`;
   getDisabledIncreaseBtn();
   smallerBtn.addEventListener('click', getDecreaseScale);
   biggerBtn.addEventListener('click', getIncreaseScale);
 };
 
-const removeBtnListener = () => {
+const removeScaleValues = () => {
+  smallerBtn.removeAttribute('disabled', 'disabled');
+  inputScale.value = `${MAX_PERCENT}%`;
   smallerBtn.removeEventListener('click', getDecreaseScale);
   biggerBtn.removeEventListener('click', getIncreaseScale);
 };
 
-export { getScalePhoto, removeBtnListener, inputScale, MAX_PERCENT };
+export { getScalePhoto, removeScaleValues, inputScale, MAX_PERCENT };

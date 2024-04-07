@@ -1,12 +1,12 @@
 import { isEscapeKey } from './utils.js';
-import { getScalePhoto, removeBtnListener, inputScale, MAX_PERCENT } from './scale-photo.js';
+import { getScalePhoto, removeScaleValues, inputScale, MAX_PERCENT } from './scale-photo.js';
 import { getInputRange, onClearSlider } from './slider.js';
 import { showsStatusSending } from './form-messages.js';
 import { imageSubstitution } from './image-substitution.js';
 
 const MAX_SYMBOLS = 20;
 const MAX_HASHTAGS = 5;
-const BASE_URL = 'https://31.javascript.htmlacademy.pro/kekstagram';
+const BASE_URL = 'https://31.javascript.htmlacademy.pro/kekstagram/';
 
 const uploadForm = document.querySelector('#upload-select-image');
 const bodyElement = document.querySelector('body');
@@ -35,34 +35,39 @@ const onDocumentKeydown = (evt) => {
 };
 
 function onPhotoEditResetBtnClick () {
+  removeScaleValues();
+  onClearSlider();
   bodyElement.classList.remove('modal-open');
   photoEditForm.classList.add('hidden');
   uploadForm.removeEventListener('reset', onPhotoEditResetBtnClick);
   document.removeEventListener('keydown', onDocumentKeydown);
-  removeBtnListener();
-  onClearSlider();
+
+  hashtagInput.value = '';
+  commentsInput.value = '';
   uploadFileControl.value = '';
   imgUploadPrewiew.style.transform = '';
 }
-
-const getUploadModal = () => {
-  uploadFileControl.addEventListener('change', (evt) => {
-    const currentImage = evt.target.files;
-    photoEditForm.classList.remove('hidden');
-    bodyElement.classList.add('modal-open');
-    uploadForm.addEventListener('reset', onPhotoEditResetBtnClick);
-    document.addEventListener('keydown', onDocumentKeydown);
-    imageSubstitution(photoEditForm, uploadFileControl, currentImage, imgUploadPrewiew);
-    getScalePhoto();
-    getInputRange();
-  });
-};
 
 const pristineUpload = new Pristine(uploadForm, {
   classTo: 'img-upload__field-wrapper',
   errorClass: 'img-upload__field-wrapper--error',
   errorTextParent: 'img-upload__field-wrapper',
 });
+
+const getUploadModal = () => {
+  uploadFileControl.addEventListener('change', (evt) => {
+    pristineUpload.reset();
+    btnSubmit.removeAttribute('disabled');
+    const currentImage = evt.target.files;
+    photoEditForm.classList.remove('hidden');
+    bodyElement.classList.add('modal-open');
+    document.addEventListener('keydown', onDocumentKeydown);
+    imageSubstitution(photoEditForm, uploadFileControl, currentImage, imgUploadPrewiew);
+    getInputRange();
+    getScalePhoto();
+    uploadForm.addEventListener('reset', onPhotoEditResetBtnClick);
+  });
+};
 
 const onSuccess = () => {
   showsStatusSending('body', '#success', '.success');
@@ -76,7 +81,7 @@ const onFormSubmit = (evt) => {
   evt.preventDefault();
 
   if (pristineUpload) {
-    hashtagInput.value = hashtagInput.value.trim().replaceAll(/\s+/g, '');
+    pristineUpload.reset();
     const formData = new FormData(evt.target);
     fetch(BASE_URL, {
       method: 'POST',
@@ -84,7 +89,7 @@ const onFormSubmit = (evt) => {
     })
       .then((response) => {
         if (response.ok) {
-          btnSubmit.setAttribute('disabled', true);
+          btnSubmit.setAttribute('disabled', 'disabled');
           inputScale.value = `${MAX_PERCENT}%`;
           hashtagInput.value = '';
           commentsInput.value = '';
@@ -97,9 +102,6 @@ const onFormSubmit = (evt) => {
       })
       .catch(() => {
         onError();
-      })
-      .finally(() => {
-        btnSubmit.removeAttribute('disabled');
       });
   }
 };

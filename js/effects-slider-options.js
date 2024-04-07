@@ -17,7 +17,7 @@ const setGrayscaleEffectOptions = (sliderElement, valueElement, imgUpload, slide
         return value.toFixed(1);
       },
       from: function (value) {
-        return parseFloat(value);
+        return parseFloat(value, 10);
       },
     }
   });
@@ -42,7 +42,7 @@ const setSepiaEffectOptions = (sliderElement, valueElement, imgUpload, sliderCon
         return value.toFixed(1);
       },
       from: function (value) {
-        return parseFloat(value);
+        return parseFloat(value, 10);
       },
     }
   });
@@ -66,7 +66,7 @@ const setInvertEffectOptions = (sliderElement, valueElement, imgUpload, sliderCo
         return value.toFixed(0);
       },
       from: function (value) {
-        return parseFloat(value);
+        return parseFloat(value, 10);
       },
     }
   });
@@ -91,7 +91,7 @@ const setBlurEffectOptions = (sliderElement, valueElement, imgUpload, sliderCont
         return value.toFixed(1);
       },
       from: function (value) {
-        return parseFloat(value);
+        return parseFloat(value, 10);
       },
     }
   });
@@ -114,7 +114,7 @@ const setBrightnessEffectOptions = (sliderElement, valueElement, imgUpload, slid
         return value.toFixed(1);
       },
       from: function (value) {
-        return parseFloat(value);
+        return parseFloat(value, 10);
       },
     }
   });

@@ -6,6 +6,7 @@ const valueElement = document.querySelector('.effect-level__value');
 const imgContainer = document.querySelector('.img-upload__preview');
 const imgUpload = imgContainer.querySelector('img');
 const effectsList = document.querySelector('.effects__list');
+const itemChecked = document.querySelector('#effect-none');
 
 sliderContainer.classList.add('hidden');
 
@@ -51,6 +52,7 @@ const getCurrentEffect = (evt) => {
       break;
     case effectsName.sepia:
       setSepiaEffectOptions(sliderElement, valueElement, imgUpload, sliderContainer);
+      valueElement.value = 1;
       break;
     case effectsName.invert:
       setInvertEffectOptions(sliderElement, valueElement, imgUpload, sliderContainer);
@@ -68,6 +70,7 @@ const onClearSlider = () => {
   sliderContainer.classList.add('hidden');
   imgUpload.style = ' ';
   effectsList.removeEventListener('click', getCurrentEffect);
+  itemChecked.checked = true;
 };
 
 const getInputRange = () => {

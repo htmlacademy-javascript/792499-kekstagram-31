@@ -10,6 +10,7 @@ const FILTER_BTN = {
 const ACTIVE_BTN_CLASS = 'img-filters__button--active';
 const MAX_RANDOM_IMAGES = 10;
 const filterElement = document.querySelector('.img-filters');
+const debounceRender = debounce(applyingFilter);
 let currentFilter = FILTER_BTN.default;
 let pictures = [];
 
@@ -29,7 +30,7 @@ const onFilterChange = (evt) => {
   targetBtn.classList.toggle(ACTIVE_BTN_CLASS);
 
   currentFilter = targetBtn.getAttribute('id');
-  applyingFilter();
+  debounceRender();
 };
 
 function applyingFilter () {
@@ -38,9 +39,7 @@ function applyingFilter () {
   const photoContainer = document.querySelector('.pictures');
   const pictureElements = photoContainer.querySelectorAll('.picture');
 
-  pictureElements.forEach((element) => {
-    photoContainer.removeChild(element);
-  });
+  pictureElements.forEach((element) => photoContainer.removeChild(element));
 
   switch (currentFilter) {
     case FILTER_BTN.default:
@@ -56,8 +55,6 @@ function applyingFilter () {
       createThumbnails(filteredPictures);
       break;
   }
-
-  debounce(filteredPictures);
 }
 
 const configFilter = (data) => {
